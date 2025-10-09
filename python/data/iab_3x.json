@@ -1,0 +1,9 @@
+[
+  {"id": "3", "label": "Arts, Entertainment, and Media", "path": ["Arts, Entertainment, and Media"], "scd": false},
+  {"id": "2", "label": "Automotive", "path": ["Automotive"], "scd": false},
+  {"id": "15", "label": "Business", "path": ["Business"], "scd": false},
+  {"id": "483", "label": "Sports", "path": ["Sports"], "scd": false},
+  {"id": "3-5", "label": "Food & Drink", "path": ["Arts, Entertainment, and Media", "Food & Drink"], "scd": false},
+  {"id": "3-5-2", "label": "Cooking", "path": ["Arts, Entertainment, and Media", "Food & Drink", "Cooking"], "scd": false}
+]
+

@@ -1,10 +1,70 @@
-.venv/
+# Python
 __pycache__/
-*.pyc
-.pytest_cache/
-.DS_Store
-.idea/
-.vscode/
-dist/
+*.py[cod]
+*$py.class
+*.so
+.Python
 build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
+.pytest_cache/
+.venv/
+venv/
+ENV/
+env/
+.coverage
+htmlcov/
+.tox/
+.mypy_cache/
+.dmypy.json
+dmypy.json
 
+# JavaScript/Node
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.pnpm-debug.log*
+*.tsbuildinfo
+/javascript/dist/
+/javascript/.npmrc
+.npmrc
+
+# Python Publishing
+.pypirc
+/python/.pypirc
+/python/publish.sh
+/python/publish_to_pypi.py
+
+# IDEs
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+
+# Logs
+*.log
+uvicorn.log
+
+# Output files
+mapped_*.json
+mapped_*.csv
+
+# Environment
+.env
+.env.local

@@ -1,0 +1,53 @@
+{
+  "name": "@mixpeek/iab-mapper",
+  "version": "1.0.0",
+  "description": "Local IAB Content Taxonomy 2.x -> 3.0 mapper with vectors, SCD, OpenRTB/VAST exporters for Node.js",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "files": [
+    "dist",
+    "data",
+    "README.md",
+    "LICENSE"
+  ],
+  "scripts": {
+    "build": "tsc",
+    "prepare": "npm run build",
+    "test": "jest",
+    "prepublishOnly": "npm run build"
+  },
+  "keywords": [
+    "iab",
+    "taxonomy",
+    "content",
+    "openrtb",
+    "ctv",
+    "classification",
+    "advertising",
+    "vast"
+  ],
+  "author": "Mixpeek",
+  "license": "BSD-2-Clause",
+  "homepage": "https://github.com/mixpeek/iab-mapper",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mixpeek/iab-mapper.git"
+  },
+  "bugs": {
+    "url": "https://github.com/mixpeek/iab-mapper/issues"
+  },
+  "dependencies": {
+    "fuzzball": "^2.1.2"
+  },
+  "devDependencies": {
+    "@types/node": "^20.0.0",
+    "typescript": "^5.0.0",
+    "jest": "^29.0.0",
+    "@types/jest": "^29.0.0",
+    "ts-jest": "^29.0.0"
+  },
+  "engines": {
+    "node": ">=14.0.0"
+  }
+}
+
