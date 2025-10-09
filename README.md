@@ -5,6 +5,48 @@
 # IAB Content Taxonomy Mapper
 
 <p align="center">
+  <!-- CI/Tests -->
+  <a href="https://github.com/mixpeek/iab-mapper/actions/workflows/ci.yml">
+    <img src="https://github.com/mixpeek/iab-mapper/actions/workflows/ci.yml/badge.svg" alt="CI Status" />
+  </a>
+  
+  <!-- Python Package -->
+  <a href="https://pypi.org/project/iab-mapper/">
+    <img src="https://img.shields.io/pypi/v/iab-mapper.svg" alt="PyPI version" />
+  </a>
+  <a href="https://pypi.org/project/iab-mapper/">
+    <img src="https://img.shields.io/pypi/pyversions/iab-mapper.svg" alt="Python versions" />
+  </a>
+  <a href="https://pypi.org/project/iab-mapper/">
+    <img src="https://img.shields.io/pypi/dm/iab-mapper.svg" alt="PyPI downloads" />
+  </a>
+  
+  <!-- npm Package -->
+  <a href="https://www.npmjs.com/package/@mixpeek/iab-mapper">
+    <img src="https://img.shields.io/npm/v/@mixpeek/iab-mapper.svg" alt="npm version" />
+  </a>
+  <a href="https://www.npmjs.com/package/@mixpeek/iab-mapper">
+    <img src="https://img.shields.io/npm/dm/@mixpeek/iab-mapper.svg" alt="npm downloads" />
+  </a>
+  
+  <!-- License & Quality -->
+  <a href="https://github.com/mixpeek/iab-mapper/blob/main/LICENSE">
+    <img src="https://img.shields.io/badge/license-BSD--2--Clause-blue.svg" alt="License" />
+  </a>
+  <a href="https://github.com/mixpeek/iab-mapper">
+    <img src="https://img.shields.io/github/stars/mixpeek/iab-mapper?style=social" alt="GitHub stars" />
+  </a>
+  
+  <!-- Security & Trust -->
+  <a href="https://github.com/mixpeek/iab-mapper/security">
+    <img src="https://img.shields.io/badge/security-BSD--2--Clause-green.svg" alt="Security" />
+  </a>
+  <a href="https://github.com/mixpeek/iab-mapper/blob/main/CODE_OF_CONDUCT.md">
+    <img src="https://img.shields.io/badge/Contributor%20Covenant-2.1-4baaaa.svg" alt="Code of Conduct" />
+  </a>
+</p>
+
+<p align="center">
   <a href="https://github.com/mixpeek/iab-mapper">View iab-mapper on GitHub</a>
   •
   <a href="https://mixpeek.com/tools/iab-taxonomy-mapper">Open Mixpeek — IAB Taxonomy Mapper</a>
