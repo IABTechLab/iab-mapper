@@ -31,7 +31,7 @@ class MapOptions(BaseModel):
     emb_cut: float = Field(0.80, ge=0.0, le=1.0)
     max_topics: int = 3
     drop_scd: bool = False
-    cattax: str = "2"
+    cattax: str = "9"
     overrides_path: Optional[str] = None
     # LLM re-rank
     use_llm: bool = False

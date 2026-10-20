@@ -1,5 +1,6 @@
 {
   "Sports": ["Athletics", "Sport"],
-  "Cooking": ["Recipes", "Culinary"]
+  "Cooking": ["Recipes", "Recipe", "Culinary", "Kitchen", "How-to cooking"],
+  "Alcoholic Beverages": ["Alcohol", "Wine", "Beer", "Spirits"]
 }
 

@@ -65,7 +65,8 @@ export interface MappedRecord {
 
 export interface InputRecord {
   code?: string;
-  label: string;
+  /** Optional when `code` is a 2.x code from the bundled catalog: the label is looked up. */
+  label?: string;
   channel?: string;
   type?: string;
   format?: string;
@@ -83,6 +84,7 @@ export interface Override {
 export class Mapper {
   private cfg: Required<MapConfig>;
   private iab2: IAB2Item[];
+  private code2ToLabel: Map<string, string>;
   private iab3: IAB3Item[];
   private syn2: SynonymsMap;
   private syn3: SynonymsMap;
@@ -100,7 +102,7 @@ export class Mapper {
       fuzzyMethod: cfg.fuzzyMethod ?? 'rapidfuzz',
       maxTopics: cfg.maxTopics ?? 3,
       dropScd: cfg.dropScd ?? false,
-      cattax: cfg.cattax ?? '2',
+      cattax: cfg.cattax ?? '9',
       overridesPath: cfg.overridesPath ?? ''
     };
 
@@ -108,6 +110,8 @@ export class Mapper {
 
     // Load catalogs
     this.iab2 = this.loadJson(path.join(baseDataDir, 'iab_2x.json'));
+    // 2.x code -> label, so a record that carries only a code still maps
+    this.code2ToLabel = new Map(this.iab2.map(r => [String(r.code).trim(), r.label]));
     this.iab3 = this.loadJson(path.join(baseDataDir, 'iab_3x.json'));
     
     // Load synonyms (optional)
@@ -265,7 +269,10 @@ export class Mapper {
    */
   mapRecord(rec: InputRecord): MappedRecord {
     const inCode = rec.code;
-    const inLabel = rec.label || '';
+    let inLabel = rec.label || '';
+    if (!inLabel.trim() && inCode !== undefined && inCode !== null && String(inCode) !== '') {
+      inLabel = this.code2ToLabel.get(String(inCode).trim()) || '';
+    }
 
     // 1) Check overrides first
     let topics = this.applyOverrides(inCode, inLabel);

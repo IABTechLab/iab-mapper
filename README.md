@@ -60,8 +60,10 @@
   <strong>📺 Watch the 5-minute walkthrough</strong>
 </p>
 
-Map **IAB Content Taxonomy 2.x** labels/codes to **IAB 3.0** locally with a deterministic → fuzzy → (optional) semantic pipeline.
-Outputs are **IAB‑3.0–compatible IDs** for OpenRTB/VAST, with optional **vector attributes** (Channel, Type, Format, Language, Source, Environment) and **SCD** awareness.
+> **Targets IAB Content Taxonomy 3.1** and emits `cattax: "9"` by default (AdCOM *List: Category Taxonomies*: 7 = 3.0, 9 = 3.1). Every 3.0 ID still exists in 3.1, so pass `cattax: "7"` if a receiver expects 3.0. Versions before 1.1.0 (npm and PyPI) defaulted to `"2"`, which tells a receiver the IDs are Content Taxonomy 2.0.
+
+Map **IAB Content Taxonomy 2.x** labels/codes to **IAB Content Taxonomy 3.1** locally with a deterministic → fuzzy → (optional) semantic pipeline.
+Outputs are **IAB 3.1 IDs** for OpenRTB/VAST, with optional **vector attributes** (Channel, Type, Format, Language, Source, Environment) and **SCD** awareness.
 
 > **Available in both Python and JavaScript/TypeScript**
 
@@ -71,7 +73,7 @@ The IAB Mapper helps you migrate from IAB Content Taxonomy 2.x to 3.0 by:
 
 1. **Input:** Your existing 2.x codes/labels (CSV or JSON)
 2. **Process:** Deterministic matching → fuzzy matching → optional semantic enhancement
-3. **Output:** Valid IAB 3.0 IDs ready for OpenRTB/VAST integration
+3. **Output:** Valid IAB 3.1 IDs ready for OpenRTB/VAST integration
 
 **Example:**
 ```
@@ -79,9 +81,9 @@ The IAB Mapper helps you migrate from IAB Content Taxonomy 2.x to 3.0 by:
 "1-4","Sports"
 "2-12","Food & Drink"
 
-# Output: 3.0 IDs
+# Output: 3.1 IDs
 "483","Sports"
-"3-5-2","Food & Drink > Cooking"
+"216","Food & Drink > Cooking"
 ```
 
 Perfect for ad tech teams, content platforms, and anyone migrating to IAB 3.0.
@@ -147,7 +149,7 @@ result = mapper.map_record({
 })
 
 print(result["openrtb"])
-# {"content": {"cat": ["3-5-2", "1026"], "cattax": "2"}}
+# {"content": {"cat": ["216", "1026"], "cattax": "9"}}
 ```
 
 ### JavaScript
@@ -164,7 +166,7 @@ const result = mapper.mapRecord({
 });
 
 console.log(result.openrtb);
-// { content: { cat: ['3-5-2', '1026'], cattax: '2' } }
+// { content: { cat: ['216', '1026'], cattax: '9' } }
 ```
 
 ### TypeScript
@@ -217,7 +219,7 @@ iab-mapper/
 Both implementations provide:
 
 - ✅ **Deterministic alias/exact matching** → fuzzy string matching
-- ✅ **IAB 3.0 ID emission** (not just labels) with configurable `cattax` for OpenRTB
+- ✅ **IAB 3.1 ID emission** (not just labels) with configurable `cattax` for OpenRTB
 - ✅ **Multi-category output** per input
 - ✅ **Vector attributes** support (Channel, Type, Format, Language, Source, Environment)
 - ✅ **SCD (Sensitive Content) flag** visibility and optional exclusion

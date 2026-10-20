@@ -19,7 +19,7 @@ class MapConfig:
     max_topics: int = 3
     drop_scd: bool = False
     # OpenRTB cattax value (string per spec enumeration)
-    cattax: str = "2"
+    cattax: str = "9"
     # Optional overrides file (JSON). Each item: {"code": str|null, "label": str|null, "ids": [str]}
     overrides_path: Optional[str] = None
     # LLM re-ranking (optional, local via Ollama)
@@ -31,6 +31,8 @@ class Mapper:
     def __init__(self, cfg: MapConfig, data_dir: str):
         self.cfg = cfg
         self.iab2 = load_json(f"{data_dir}/iab_2x.json")
+        # 2.x code -> label, so a record that carries only a code still maps
+        self.code2_to_label = {str(r["code"]).strip(): r["label"] for r in self.iab2}
         self.iab3 = load_json(f"{data_dir}/iab_3x.json")
         # Synonyms are optional
         try:
@@ -236,6 +238,8 @@ class Mapper:
     def map_record(self, rec: Dict[str, Any]) -> Dict[str, Any]:
         in_code = rec.get("code")
         in_label = rec.get("label") or ""
+        if not in_label.strip() and in_code not in (None, ""):
+            in_label = self.code2_to_label.get(str(in_code).strip(), "")
 
         # 1) Overrides first
         overrides_applied = self._apply_overrides(in_code, in_label)
