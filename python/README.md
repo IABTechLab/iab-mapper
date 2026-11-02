@@ -78,7 +78,7 @@ print(out["openrtb"])         # {"content": {"cat": [...], "cattax": "2"}}
 print(out["vast_contentcat"]) # "id1","id2",...
 
 # Or just map topics
-topics = mapper.map_topics("Cooking how-to")
+topics, _ = mapper.map_topics("Cooking how-to")
 
 # Batch over a list of dicts
 rows = [rec, {"label": "Sports"}]

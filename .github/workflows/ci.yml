@@ -7,7 +7,7 @@ on:
     branches: [ main ]
 
 jobs:
-  test:
+  python:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -18,8 +18,21 @@ jobs:
       - name: Install deps
         run: |
           python -m pip install --upgrade pip
-          pip install -e .[emb]
+          pip install -e ./python
           pip install pytest
       - name: Run tests
-        run: pytest -q
+        run: pytest -q tests
 
+  javascript:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: javascript
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+      - run: npm ci
+      - run: npm test
+      - run: npm run build

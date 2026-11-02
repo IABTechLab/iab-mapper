@@ -31,8 +31,9 @@ describe('normalize', () => {
     expect(normalize('   ')).toBe('');
   });
 
-  it('should handle unicode normalization', () => {
-    expect(normalize('café')).toBe('cafe');
+  it('keeps accented letters, matching the Python normalize', () => {
+    expect(normalize('café')).toBe('café');
+    expect(normalize('ﬁ')).toBe('fi');
   });
 
   it('should preserve allowed characters', () => {

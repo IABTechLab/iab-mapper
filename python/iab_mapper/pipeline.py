@@ -248,8 +248,11 @@ class Mapper:
         if topics is None:
             topics, used_llm_rerank = self.map_topics(in_label) # Capture used_llm_rerank from map_topics
         else:
-            # If overrides applied, LLM re-rank is not applicable for this record's top picks
-            topics, _ = self.map_topics(in_label) # still run map_topics to get other candidates, but ignore its used_llm_rerank
+            # Overrides lead; map_topics only fills the remaining slots. LLM re-rank does not
+            # apply to an overridden record's top picks, so its flag is ignored.
+            candidates, _ = self.map_topics(in_label)
+            pinned = {t["id"] for t in topics}
+            topics = topics + [t for t in candidates if t["id"] not in pinned]
 
         # Add SCD flag on topics
         for t in topics:

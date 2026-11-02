@@ -50,21 +50,21 @@ def test_embeddings_tfidf_backend():
 def test_pipeline_rapidfuzz():
     cfg = MapConfig(fuzzy_method="rapidfuzz", fuzzy_cut=0.1, max_topics=3)
     m = Mapper(cfg, str(data_dir()))
-    out = m.map_topics("Sports")
+    out, _ = m.map_topics("Sports")
     assert isinstance(out, list)
 
 
 def test_pipeline_tfidf():
     cfg = MapConfig(fuzzy_method="tfidf", fuzzy_cut=0.1, max_topics=3)
     m = Mapper(cfg, str(data_dir()))
-    out = m.map_topics("Food & Drink")
+    out, _ = m.map_topics("Food & Drink")
     assert out and any("Food & Drink" in x["label"] for x in out)
 
 
 def test_pipeline_bm25():
     cfg = MapConfig(fuzzy_method="bm25", fuzzy_cut=0.1, max_topics=3)
     m = Mapper(cfg, str(data_dir()))
-    out = m.map_topics("Cooking how-to")
+    out, _ = m.map_topics("Cooking how-to")
     assert out and any("Cooking" in x["label"] for x in out)
 
 
@@ -72,7 +72,7 @@ def test_pipeline_embeddings_tfidf_augments():
     # Make fuzzy strict to force embed augmentation
     cfg = MapConfig(fuzzy_method="rapidfuzz", fuzzy_cut=0.95, use_embeddings=True, emb_model="tfidf", emb_cut=0.1)
     m = Mapper(cfg, str(data_dir()))
-    out = m.map_topics("Cooking how-to")
+    out, _ = m.map_topics("Cooking how-to")
     assert out and any(x["source"] == "embed" for x in out)
 
 
