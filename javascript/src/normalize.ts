@@ -2,7 +2,8 @@
  * Text normalization utilities for IAB taxonomy matching
  */
 
-const PUNCT_RE = /[^\w\s&/+-]/g;
+// Unicode-aware, to match Python's re (where \w includes accented letters): 'café' stays 'café'.
+const PUNCT_RE = /[^\p{L}\p{N}_\s&/+-]/gu;
 const WS_RE = /\s+/g;
 
 /**

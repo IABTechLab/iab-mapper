@@ -3,7 +3,7 @@ import * as path from 'path';
 
 describe('Mapper', () => {
   const dataDir = path.join(__dirname, '../../data');
-  
+
   describe('initialization', () => {
     it('should initialize with default config', () => {
       expect(() => new Mapper({}, dataDir)).not.toThrow();
@@ -26,7 +26,7 @@ describe('Mapper', () => {
 
     it('should map a known label', () => {
       const topics = mapper.mapTopics('Sports');
-      
+
       expect(topics.length).toBeGreaterThan(0);
       expect(topics[0]).toHaveProperty('id');
       expect(topics[0]).toHaveProperty('label');
@@ -37,14 +37,14 @@ describe('Mapper', () => {
     it('should return empty array for unknown label with high threshold', () => {
       const mapper = new Mapper({ fuzzyCut: 0.99 }, dataDir);
       const topics = mapper.mapTopics('xyz123nonsense');
-      
+
       expect(topics).toEqual([]);
     });
 
     it('should respect maxTopics limit', () => {
       const mapper = new Mapper({ maxTopics: 2 }, dataDir);
       const topics = mapper.mapTopics('Sports');
-      
+
       expect(topics.length).toBeLessThanOrEqual(2);
     });
   });
@@ -54,7 +54,7 @@ describe('Mapper', () => {
 
     it('should map a simple record', () => {
       const result = mapper.mapRecord({ label: 'Sports' });
-      
+
       expect(result).toHaveProperty('in_label', 'Sports');
       expect(result).toHaveProperty('out_ids');
       expect(result).toHaveProperty('topic_ids');
@@ -65,7 +65,7 @@ describe('Mapper', () => {
 
     it('should include code in output if provided', () => {
       const result = mapper.mapRecord({ code: '1-4', label: 'Sports' });
-      
+
       expect(result.in_code).toBe('1-4');
     });
 
@@ -75,38 +75,56 @@ describe('Mapper', () => {
         channel: 'editorial',
         type: 'article'
       });
-      
+
       expect(result.vectors).toHaveProperty('channel', 'editorial');
       expect(result.vectors).toHaveProperty('type', 'article');
       expect(result.out_ids.length).toBeGreaterThan(1); // Should include vector IDs
     });
 
+    it('should map a 2.x code with no label by looking the label up', () => {
+      const result = mapper.mapRecord({ code: '1' });
+      expect(result.in_label).toBe('Automotive');
+      expect(result.out_ids).toContain('1');
+      expect(result.openrtb.content.cattax).toBe('9');
+    });
+
+    it('should prefer the given label over the code lookup', () => {
+      const result = mapper.mapRecord({ code: '1', label: 'Cooking' });
+      expect(result.out_ids).toContain('216');
+      expect(result.out_ids).not.toContain('1');
+    });
+
+    it('should return no topics for an unknown code with no label', () => {
+      const result = mapper.mapRecord({ code: 'no-such-code' });
+      expect(result.topic_ids).toEqual([]);
+    });
+
     it('should format OpenRTB correctly', () => {
       const result = mapper.mapRecord({ label: 'Sports' });
-      
+
       expect(result.openrtb).toHaveProperty('content');
       expect(result.openrtb.content).toHaveProperty('cat');
-      expect(result.openrtb.content).toHaveProperty('cattax', '2');
+      expect(result.openrtb.content).toHaveProperty('cattax', '9');
       expect(Array.isArray(result.openrtb.content.cat)).toBe(true);
     });
 
     it('should format VAST ContentCat correctly', () => {
       const result = mapper.mapRecord({ label: 'Sports' });
-      
+
       expect(typeof result.vast_contentcat).toBe('string');
       expect(result.vast_contentcat).toMatch(/^"[^"]+"(,"[^"]+")*$/); // Format: "id1","id2",...
     });
 
     it('should include SCD flags', () => {
       const result = mapper.mapRecord({ label: 'Sports' });
-      
+
       expect(Array.isArray(result.topic_scd)).toBe(true);
       expect(result.topic_scd.length).toBe(result.topic_ids.length);
     });
 
     it('should include confidence scores', () => {
       const result = mapper.mapRecord({ label: 'Sports' });
-      
+
       expect(Array.isArray(result.topic_confidence)).toBe(true);
       expect(result.topic_confidence.length).toBe(result.topic_ids.length);
       result.topic_confidence.forEach(conf => {
@@ -118,7 +136,7 @@ describe('Mapper', () => {
     it('should use custom cattax value', () => {
       const mapper = new Mapper({ cattax: '3' }, dataDir);
       const result = mapper.mapRecord({ label: 'Sports' });
-      
+
       expect(result.cattax).toBe('3');
       expect(result.openrtb.content.cattax).toBe('3');
     });
@@ -132,9 +150,9 @@ describe('Mapper', () => {
         { label: 'Sports' },
         { label: 'Food & Drink' }
       ];
-      
+
       const results = mapper.mapRecords(records);
-      
+
       expect(results.length).toBe(2);
       expect(results[0].in_label).toBe('Sports');
       expect(results[1].in_label).toBe('Food & Drink');
@@ -150,14 +168,14 @@ describe('Mapper', () => {
     it('should work with rapidfuzz method', () => {
       const mapper = new Mapper({ fuzzyMethod: 'rapidfuzz' }, dataDir);
       const result = mapper.mapRecord({ label: 'Sports' });
-      
+
       expect(result.out_ids.length).toBeGreaterThan(0);
     });
 
     it('should work with tfidf method', () => {
       const mapper = new Mapper({ fuzzyMethod: 'tfidf' }, dataDir);
       const result = mapper.mapRecord({ label: 'Sports' });
-      
+
       expect(result.out_ids.length).toBeGreaterThan(0);
     });
   });
@@ -167,7 +185,7 @@ describe('Mapper', () => {
       // This test would need SCD data to properly verify
       const mapper = new Mapper({ dropScd: true }, dataDir);
       const result = mapper.mapRecord({ label: 'Sports' });
-      
+
       // All SCD flags should be false if dropScd is true
       result.topic_scd.forEach(scd => {
         expect(scd).toBe(false);
@@ -191,9 +209,8 @@ describe('Mapper', () => {
     it('should not duplicate IDs in output', () => {
       const result = mapper.mapRecord({ label: 'Sports' });
       const uniqueIds = new Set(result.out_ids);
-      
+
       expect(uniqueIds.size).toBe(result.out_ids.length);
     });
   });
 });
-

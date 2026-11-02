@@ -1,1 +1,5 @@
-{"Sports > Team Sports":["Team sport","Ball games"],"Food & Drink > Cooking":["Recipe","Kitchen","How-to cooking"],"Food & Drink > Alcoholic Beverages":["Alcohol","Wine","Beer","Spirits"]}
+{
+  "Sports": ["Athletics", "Sport"],
+  "Cooking": ["Recipes", "Recipe", "Culinary", "Kitchen", "How-to cooking"],
+  "Alcoholic Beverages": ["Alcohol", "Wine", "Beer", "Spirits"]
+}

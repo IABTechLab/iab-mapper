@@ -1,5 +1,1 @@
-{
-  "Sports": ["Athletics", "Sport"],
-  "Food & Drink": ["Food and Drink", "Cuisine"]
-}
-
+{"Sports":["Athletics","Games"],"Food & Drink":["Cuisine","Meals","Food"],"Tobacco":["Cigarettes","Smoking"]}

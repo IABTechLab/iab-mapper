@@ -1,6 +1,6 @@
 {
   "name": "@mixpeek/iab-mapper",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "Local IAB Content Taxonomy 2.x -> 3.0 mapper with vectors, SCD, OpenRTB/VAST exporters for Node.js",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",

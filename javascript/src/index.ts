@@ -11,7 +11,7 @@
  *   fuzzyMethod: 'rapidfuzz',
  *   fuzzyCut: 0.92,
  *   maxTopics: 3,
- *   cattax: '2'
+ *   cattax: '9'
  * });
  * 
  * const result = mapper.mapRecord({
@@ -22,7 +22,7 @@
  * });
  * 
  * console.log(result.openrtb);
- * // { content: { cat: ['3-5-2', ...], cattax: '2' } }
+ * // { content: { cat: ['3-5-2', ...], cattax: '9' } }
  * ```
  */
 

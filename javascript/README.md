@@ -1,11 +1,13 @@
 # @mixpeek/iab-mapper
 
-> Local IAB Content Taxonomy 2.x → 3.0 mapper for Node.js with vectors, SCD, OpenRTB/VAST exporters
+> Local IAB Content Taxonomy 2.x → 3.1 mapper for Node.js with vectors, SCD, OpenRTB/VAST exporters
 
 [![npm version](https://badge.fury.io/js/@mixpeek%2Fiab-mapper.svg)](https://www.npmjs.com/package/@mixpeek/iab-mapper)
 [![License: BSD-2-Clause](https://img.shields.io/badge/License-BSD%202--Clause-blue.svg)](https://opensource.org/licenses/BSD-2-Clause)
 
-Map **IAB Content Taxonomy 2.x** labels/codes to **IAB 3.0** locally with deterministic → fuzzy matching. Outputs are **IAB‑3.0–compatible IDs** for OpenRTB/VAST, with optional **vector attributes** (Channel, Type, Format, Language, Source, Environment) and **SCD** awareness.
+> **Targets IAB Content Taxonomy 3.1** and emits `cattax: "9"` by default (AdCOM *List: Category Taxonomies*: 7 = 3.0, 9 = 3.1). Every 3.0 ID still exists in 3.1, so pass `cattax: "7"` if a receiver expects 3.0. Versions before 1.1.0 (npm and PyPI) defaulted to `"2"`, which tells a receiver the IDs are Content Taxonomy 2.0.
+
+Map **IAB Content Taxonomy 2.x** labels/codes to **IAB Content Taxonomy 3.1** locally with deterministic → fuzzy matching. Outputs are **IAB 3.1 IDs** for OpenRTB/VAST, with optional **vector attributes** (Channel, Type, Format, Language, Source, Environment) and **SCD** awareness.
 
 This is the **Node.js/TypeScript** version of the [Python iab-mapper](https://github.com/mixpeek/iab-mapper) package.
 
@@ -15,7 +17,7 @@ The IAB Mapper helps you migrate from IAB Content Taxonomy 2.x to 3.0 by:
 
 1. **Input:** Your existing 2.x codes/labels
 2. **Process:** Deterministic matching → fuzzy matching
-3. **Output:** Valid IAB 3.0 IDs ready for OpenRTB/VAST integration
+3. **Output:** Valid IAB 3.1 IDs ready for OpenRTB/VAST integration
 
 **Example:**
 ```javascript
@@ -28,7 +30,7 @@ const result = mapper.mapRecord({
 });
 
 console.log(result.openrtb);
-// { content: { cat: ['3-5-2'], cattax: '2' } }
+// { content: { cat: ['216'], cattax: '9' } }
 ```
 
 Perfect for ad tech teams, content platforms, and anyone migrating to IAB 3.0.
@@ -56,7 +58,7 @@ const mapper = new Mapper({
   fuzzyMethod: 'rapidfuzz',  // or 'tfidf'
   fuzzyCut: 0.92,           // similarity threshold
   maxTopics: 3,             // max topics per result
-  cattax: '2'               // OpenRTB cattax enum
+  cattax: '9'               // OpenRTB cattax: 9 = Content Taxonomy 3.1
 });
 
 // Map a single record
@@ -103,7 +105,7 @@ console.log(result.openrtb);
 | `fuzzyCut` | `0.92` | Similarity threshold (0-1). Higher = stricter matching |
 | `maxTopics` | `3` | Maximum number of topics per result |
 | `dropScd` | `false` | Exclude Sensitive Content (SCD) categories |
-| `cattax` | `'2'` | OpenRTB `content.cattax` enum value |
+| `cattax` | `'9'` | OpenRTB `content.cattax` value (9 = Content Taxonomy 3.1, 7 = 3.0) |
 | `overridesPath` | — | Path to JSON file with manual override mappings |
 
 ## 📥 Input Format
@@ -232,7 +234,7 @@ const result = mapper.mapRecord({ label: 'Sports' });
 const bidRequest = {
   site: {
     content: result.openrtb.content
-    // { cat: ['483'], cattax: '2' }
+    // { cat: ['483'], cattax: '9' }
   }
 };
 ```
@@ -252,7 +254,7 @@ const contentCategories = result.vast_contentcat;
 The package includes sample taxonomy data. For production use, replace with official IAB data:
 
 - `data/iab_2x.json` — IAB 2.x taxonomy
-- `data/iab_3x.json` — IAB 3.0 taxonomy
+- `data/iab_3x.json`: IAB Content Taxonomy 3.1 (704 categories)
 - `data/synonyms_2x.json` — 2.x synonyms
 - `data/synonyms_3x.json` — 3.0 synonyms
 - `data/vectors_*.json` — Vector attribute mappings

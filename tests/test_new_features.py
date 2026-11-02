@@ -85,3 +85,18 @@ def test_cli_unmapped_and_cattax(tmp_path: Path):
     misses = json.loads(misses_path.read_text())
     assert len(misses) == 1
 
+
+def test_code_only_record_maps_via_2x_catalog():
+    import iab_mapper, os
+    d = os.path.join(os.path.dirname(iab_mapper.__file__), "data")
+    m = Mapper(MapConfig(), d)
+    out = m.map_record({"code": "1"})
+    assert out["in_label"] == "Automotive"
+    assert "1" in out["out_ids"]
+    assert out["openrtb"]["content"]["cattax"] == "9"
+    # a supplied label wins over the code lookup
+    both = m.map_record({"code": "1", "label": "Cooking"})
+    assert "216" in both["out_ids"] and "1" not in both["out_ids"]
+    # an unknown code with no label maps to nothing
+    assert m.map_record({"code": "no-such-code"})["topic_ids"] == []
+

@@ -17,10 +17,12 @@ jobs:
           python -m pip install --upgrade pip
           pip install build twine
       - name: Build
+        working-directory: python
         run: python -m build
       - name: Publish
         env:
           TWINE_USERNAME: __token__
           TWINE_PASSWORD: ${{ secrets.PYPI_TOKEN }}
+        working-directory: python
         run: twine upload dist/*
 
